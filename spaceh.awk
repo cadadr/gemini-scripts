@@ -23,7 +23,7 @@
 BEGIN {
     inpre = 0;
     inlist = 0;
-    inb1 = 0;
+    inbq = 0;
 
     while ((getline l < (header ? header : "header.html")) > 0) {
         print l;
