@@ -1,0 +1,37 @@
+```
+/^\[\d+\] /
+```
+
+
+
+```
+def hello():
+    print fuck
+```
+
+
+``` qowiejf
+def hello():
+    print fuck
+```
+
+``` qowiejf
+def hello():
+    print fuck
+
+def hi()
+    pass
+```
+
+
+
+
+``` wuuuut
+discotecha
+qwoeifj qwef 
+qwefoj q
+wpioefj qpiwjef pqiwej fiqjwf 
+qpiowj 
+qpiwje fpqijw efpiqwj ef
+```
+
