@@ -38,19 +38,30 @@ function html_escape (x) {
     return c;
 }
 
+function chomp (x) {
+    a = gensub(/^[[:space:]]+/, "", "g", x);
+    b = gensub(/[[:space:]]+$/, "", "g", a);
+    return b;
+}
+
+
 # preformatted block
 /^```/,!/^```/ {
-    if ($1 == "```" && $2 != "") {
+    if ($1 == "```" && !inpre) {
         $1 = "";
         inpre = 1;
-        print("<pre title='", html_escape($0) ,"'>");
+	title = chomp(html_escape($0));
+	if(title != "")
+	    printf("%s%s%s\n", "<pre title='", chomp(html_escape($0)) ,"'>");
+	else
+	    print("<pre>");
     }
     else if ($1 == "```") {
         inpre = 0;
         print("</pre>");
     }
     else
-        ;
+        print(html_escape($0));
     next;
 }
 
