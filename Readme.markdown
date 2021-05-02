@@ -26,3 +26,8 @@ follows:
 
 Admittedly, that’s a gross command, so you might want to convert this
 to a for loop and put it in a script instead.
+
+## g2ra.py
+
+`g2ra.py` is an RSS/Atom proxy for subscribable Gemini pages.  Uses
+Flask and Ignition libraries.  WIP, incomplete.
