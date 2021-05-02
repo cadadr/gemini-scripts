@@ -34,7 +34,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 from datetime import datetime, timezone
-from flask import Flask, abort, request, url_for
+from flask import Flask, abort, make_response, request, url_for
 from urllib.parse import urljoin, urlparse, urlunparse
 from wsgiref.handlers import CGIHandler
 from xml.dom import minidom
@@ -124,7 +124,8 @@ def expect_feed_item(line):
 
 def convert(url, type_, content, **kwargs):
     data = parse(content)
-    data.update(kwargs)
+    if data is None:
+        return None
     if type_ == 'atom':
         return atom_feed(url, data)
     if type_ == 'rss':
@@ -262,7 +263,11 @@ def reply(response, gem_url, param_type, param_ttl, param_author,
     elif isinstance(response, ignition.SuccessResponse):
         xml = convert(gem_url, param_type, str(response),
                         ttl=param_ttl, author=param_author)
-        return xml
+        if xml is None:
+            abort(400)
+        r = make_response(xml)
+        r.headers['Content-Type'] = f'application/{param_type}+xml'
+        return r
     elif isinstance(response, ignition.RedirectResponse):
         if True:
             abort(501) # HTTP 501 Not Implemented
