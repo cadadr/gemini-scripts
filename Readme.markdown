@@ -66,8 +66,7 @@ Write a simple script you run at login:
     % cat <<EOF > ~/bin/start-g2ra.sh
     > #!/bin/sh
     > cd ~/local/g2ra-deploy
-    > . venv/bin/activate
-    > gunicorn -b 127.0.0.1:1961 g2ra:app
+    > ./venv/bin/python -m gunicorn -b 127.0.0.1:1961 g2ra:app
     > EOF
     %
 
