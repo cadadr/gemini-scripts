@@ -243,6 +243,8 @@ app = Flask(__name__)
 @app.route('/', methods=['GET'])
 def main():
     param_url = request.args.get('url')
+    if not param_url:
+        abort(400) # HTTP 400 Bad Request
     param_type = request.args.get('type', 'atom').lower()
     gem_url = ignition.url(param_url)
     if param_type not in ['atom', 'rss']:
