@@ -37,7 +37,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 from datetime import datetime, timezone
-from flask import Flask, request, url_for
+from flask import Flask, abort, request, url_for
 from urllib.parse import urljoin, urlparse, urlunparse
 from wsgiref.handlers import CGIHandler
 from xml.dom import minidom
@@ -45,6 +45,7 @@ from xml.dom import minidom
 
 TTL_DEFAULT = "1800"
 AUTHOR_DEFAULT = "Unknown Author Jr."
+MAX_REDIRECTS = 1
 
 
 def parse(string):
@@ -252,29 +253,36 @@ def main():
     param_ttl = request.args.get("ttl", TTL_DEFAULT)
     param_author = request.args.get("author", AUTHOR_DEFAULT)
     response = ignition.request(str(gem_url), timeout=5.0)
+    return reply(response, gem_url, param_type, param_ttl, param_author)
+
+
+def reply(response, gem_url, param_type, param_ttl, param_author,
+        num_redir=0):
     if isinstance(response, ignition.InputResponse):
         raise Exception("input")
     elif isinstance(response, ignition.SuccessResponse):
-        # todo: accepts
         xml = convert(gem_url, param_type, str(response),
                         ttl=param_ttl, author=param_author)
         return xml
     elif isinstance(response, ignition.RedirectResponse):
-        # todo: try once
-        ...
-    # elif isinstance(response, ignition.ClientCertRequiredResponse):
-    #     ...
-    # elif isinstance(response, ignition.TempFailureResponse):
-    #     ...
-    # elif isinstance(response, ignition.PermFailureResponse):
-    #     ...
-    # elif isinstance(response, ignition.ErrorResponse):
-    #     ...
+        if True:
+            abort(501) # HTTP 501 Not Implemented
+        else:
+            # or use flask.redirect?
+            if num_redir > MAX_REDIRECTS:
+                ...
+            else:
+                new_response = ...
+                reply(new_response, gem_url, param_type, param_ttl,
+                        param_author, num_redir + 1)
+    elif isinstance(response, ignition.ClientCertRequiredResponse):
+        abort(401) # HTTP 401 Unauthorized
+    elif isinstance(response, ignition.TempFailureResponse):
+        abort(503) # HTTP 503 Service Unavailable
+    elif isinstance(response, ignition.PermFailureResponse):
+        abort(502) # HTTP 502 Bad Gateway
     else:
-        return f'''
-            <h1>Error ({gem_url})</h1>
-            <pre>{response}</pre>'''
-
+        abort(500) # HTTP 500 Internal Server Error
 
 if __name__ == '__main__':
     CGIHandler().run(app)
