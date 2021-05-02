@@ -26,10 +26,7 @@
 
 # TODO
 # - XXX validate ttl and author (and other stuff more stricter)
-# - deal with redirects
-# - report errors better
-#   - try couple redirects
-#   - fail on empty feed?
+# - TODO deal with redirects
 
 import ignition
 import io
