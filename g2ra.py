@@ -126,6 +126,7 @@ def convert(url, type_, content, **kwargs):
     data = parse(content)
     if data is None:
         return None
+    data.update(kwargs)
     if type_ == 'atom':
         return atom_feed(url, data)
     if type_ == 'rss':
