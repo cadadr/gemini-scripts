@@ -3,6 +3,12 @@
 This is a catch-all repository for my scripts related to the new
 [Gemini protocol](https://gemini.circumlunar.space).
 
+This work, including this document, is licensed under the Cooperative
+Non-Violent Public License, version 6 or newer, whose text is
+available in the [LICENSE](./LICENSE) file in this repository, or
+online at <https://git.pixie.town/thufie/CNPL>.  In case the local and
+online versions differ, the more recent version applies.
+
 ## spaceh.awk
 
 `spaceh.awk` converts Gemini files to HTML files.
