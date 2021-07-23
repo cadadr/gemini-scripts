@@ -38,7 +38,34 @@ to a for loop and put it in a script instead.
 `g2ra.py` is an RSS/Atom proxy for subscribable Gemini pages.  Uses
 Flask and Ignition libraries.
 
+`g2ra.py` can also be used as a command line app to generate a feed,
+given a gemlog index file.
+
 **Major caveat**: currently does not handle Gemini redirects.
+
+### Command line frontend
+
+#### Generate static feeds from local files
+
+This could come in handy for you if you are auto-generating a HTML
+version of your gemlog.  The operation is simple:
+
+    % g2ra.py static -u my.url -t atom -a "Author" -p path/to/index.gmi
+
+See `g2ra.py static --help` for more info.  The Flask frontend is more
+lenient when it comes to default values for parameters, command line
+frontend has a couple more required ones.
+
+#### Run test server
+
+You can run a test server as follows:
+
+    % g2ra.py flask
+
+This will start a local CGI server you can use.
+
+
+### Proxy frontend
 
 I may one day deploy this on some public server (go ahead if you want to
 do so yourself, patches welcome!), but as it is now, you are expected to
@@ -62,7 +89,7 @@ Activate the virtual environment and install dependencies:
 Test the script is running alright:
 
     % # copy g2ra.py here
-    % gunicorn -b 127.0.0.1:1961 g2ra:app
+    % gunicorn -b 127.0.0.1:1961 'g2ra:flask_app("__main__")'
     % curl 'localhost:1961?url=cadadr.space/blag.gmi'
 
 Write a simple script you run at login:
@@ -72,7 +99,7 @@ Write a simple script you run at login:
     % cat <<EOF > ~/bin/start-g2ra.sh
     > #!/bin/sh
     > cd ~/local/g2ra-deploy
-    > ./venv/bin/python -m gunicorn -b 127.0.0.1:1961 g2ra:app
+    > ./venv/bin/python -m gunicorn -b 127.0.0.1:1961 'g2ra:flask_app("__main__")'
     > EOF
     %
 
