@@ -1,4 +1,4 @@
-# spaceh.awk --- gemini to html
+# g2html.awk --- gemini to html
 
 # Copyright (C) 2021 İ. Göktuğ Kayaalp <self at gkayaalp dot com>
 # This file is part of “Göktuğ’s Gemini Scripts”.
